@@ -2,35 +2,60 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+// Frontend URL configuration
+const frontendUrl = process.env.NODE_ENV === 'production' 
+  ? process.env.FRONTEND_URL 
+  : 'http://localhost:5173';
 
-
+// Google Authentication
 exports.googleAuth = passport.authenticate('google', {
   scope: ['profile', 'email']
 });
 
-exports.googleAuthCallback = passport.authenticate('google', {
-  successRedirect: process.env.FRONTEND_URL,
-  failureRedirect: '/login'
-});
+exports.googleAuthCallback = (req, res, next) => {
+  passport.authenticate('google', {
+    failureRedirect: `${frontendUrl}/login?error=auth_failed`
+  })(req, res, (err) => {
+    if (err) {
+      return res.redirect(`${frontendUrl}/login?error=server_error`);
+    }
+    res.redirect(`${frontendUrl}`);
+  });
+};
 
+// GitHub Authentication
 exports.githubAuth = passport.authenticate('github', {
   scope: ['user:email']
 });
 
-exports.githubAuthCallback = passport.authenticate('github', {
-  successRedirect: process.env.FRONTEND_URL,
-  failureRedirect: '/login'
-});
+exports.githubAuthCallback = (req, res, next) => {
+  passport.authenticate('github', {
+    failureRedirect: `${frontendUrl}/login?error=auth_failed`
+  })(req, res, (err) => {
+    if (err) {
+      return res.redirect(`${frontendUrl}/login?error=server_error`);
+    }
+    res.redirect(`${frontendUrl}/dashboard`);
+  });
+};
 
+// Facebook Authentication
 exports.facebookAuth = passport.authenticate('facebook', {
   scope: ['email']
 });
 
-exports.facebookAuthCallback = passport.authenticate('facebook', {
-  successRedirect: process.env.FRONTEND_URL,
-  failureRedirect: '/login'
-});
+exports.facebookAuthCallback = (req, res, next) => {
+  passport.authenticate('facebook', {
+    failureRedirect: `${frontendUrl}/login?error=auth_failed`
+  })(req, res, (err) => {
+    if (err) {
+      return res.redirect(`${frontendUrl}/login?error=server_error`);
+    }
+    res.redirect(`${frontendUrl}/dashboard`);
+  });
+};
 
+// Current User Endpoint
 exports.getCurrentUser = (req, res) => {
   if (req.user) {
     res.json(req.user);
@@ -39,18 +64,15 @@ exports.getCurrentUser = (req, res) => {
   }
 };
 
-// controllers/authController.js
+// Logout Endpoint
 exports.logout = (req, res) => {
-  // Destroy the session first
   req.session.destroy((err) => {
     if (err) {
       console.error('Error destroying session:', err);
       return res.status(500).json({ message: 'Error logging out' });
     }
     
-    // Then logout (passport)
     req.logout(() => {
-      // Clear the session cookie
       res.clearCookie('connect.sid', {
         path: '/',
         httpOnly: true,

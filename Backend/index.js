@@ -26,9 +26,20 @@ app.use(
   cors({
     origin: frontendUrl,
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
   })
 );
 
+// Add security headers in production
+if (isProduction) {
+  app.use((req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    next();
+  });
+}
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -40,14 +51,15 @@ app.use(
     saveUninitialized: false,
     store: MongoStore.create({
       mongoUrl: process.env.MONGODB_URI,
-      collectionName: 'sessions'
+      collectionName: 'sessions',
+      ttl: 24 * 60 * 60 // 1 day in seconds
     }),
     cookie: {
       maxAge: 24 * 60 * 60 * 1000, // 1 day
       secure: isProduction,
       sameSite: isProduction ? 'none' : 'lax',
-      httpOnly: true,
-      domain: isProduction ? '.quick-tick-mu.vercel.app' : undefined
+      httpOnly: true
+      // Remove domain setting for Vercel
     }
   })
 );

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 
+// Make sure each route has a proper function handler
 router.get('/google', authController.googleAuth);
 router.get('/google/callback', authController.googleAuthCallback);
 router.get('/github', authController.githubAuth);
