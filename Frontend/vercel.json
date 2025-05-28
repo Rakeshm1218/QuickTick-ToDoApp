@@ -16,7 +16,7 @@
       "src": "/api/(.*)",
       "dest": "/api/$1",
       "headers": {
-        "Access-Control-Allow-Origin": "https://your-frontend-domain.vercel.app",
+        "Access-Control-Allow-Origin": "https://quick-tick-mu.vercel.app",
         "Access-Control-Allow-Credentials": "true",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
         "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Authorization"
