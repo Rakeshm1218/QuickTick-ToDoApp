@@ -67,3 +67,17 @@ npm install
 cd ../frontend
 npm install
 ```
+
+## Run the application:
+```bash
+npm run dev
+npm start
+```
+
+## Demo Video
+
+[![Watch the video](https://raw.githubusercontent.com/username/repository/branch/path/to/thumbnail.jpg)](https://raw.githubusercontent.com/username/repository/branch/path/to/video.mp4)
+
+
+# Acknowledgements
+## This project is a part of a hackathon run by https://www.katomaran.com
