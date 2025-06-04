@@ -76,9 +76,7 @@ npm start
 
 ## Demo Video
 
-[![Watch the video](https://raw.githubusercontent.com/yourusername/yourrepository/main/assets/thumbnail.jpg)](https://raw.githubusercontent.com/yourusername/yourrepository/main/assets/video.mp4)
-
-[![Watch the video](https://raw.githubusercontent.com/Rakeshm1218/QuickTick-ToDoApp/QuickTick.png)](https://raw.githubusercontent.com/Rakeshm1218/QuickTick-ToDoApp/blob/main/QuickTickDemo.mp4)
+[![Watch the video]([https://raw.githubusercontent.com/yourusername/yourrepository/main/assets/thumbnail.jpg)](https://raw.githubusercontent.com/yourusername/yourrepository/main/assets/video.mp4](https://www.loom.com/share/97d3ea5d20404c9bbdad493a4cc56fc7?sid=859e45c4-456f-40ca-9e4d-00f750c6ffb8))
 
 
 # Acknowledgements
