@@ -7,6 +7,8 @@ const frontendUrl = process.env.NODE_ENV === 'production'
   ? process.env.FRONTEND_URL 
   : 'http://localhost:5173';
 
+
+
 // Google Authentication
 exports.googleAuth = passport.authenticate('google', {
   scope: ['profile', 'email']
