@@ -15,15 +15,20 @@ exports.googleAuth = passport.authenticate('google', {
 });
 
 exports.googleAuthCallback = (req, res, next) => {
-  passport.authenticate('google', {
-    failureRedirect: `${frontendUrl}/login?error=auth_failed`
-  })(req, res, (err) => {
-    if (err) {
-      return res.redirect(`${frontendUrl}/login?error=server_error`);
+  passport.authenticate('google', (err, user, info) => {
+    if (err || !user) {
+      return res.redirect(`${frontendUrl}/login?error=auth_failed`);
     }
-    res.redirect(`${frontendUrl}`);
-  });
+    req.login(user, (err) => {
+      if (err) {
+        return res.redirect(`${frontendUrl}/login?error=server_error`);
+      }
+      // Login successful, redirect to frontend
+      return res.redirect(`${frontendUrl}`);
+    });
+  })(req, res, next);
 };
+
 
 // GitHub Authentication
 exports.githubAuth = passport.authenticate('github', {
